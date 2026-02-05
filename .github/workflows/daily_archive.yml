@@ -1,0 +1,42 @@
+name: Daily AI News Archive
+
+on:
+  schedule:
+    # 매일 오전 9시 (KST) = UTC 0시
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 수동 실행
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create credentials file
+        run: |
+          cat << EOF > config/credentials.yaml
+          notion:
+            integration_token: "${{ secrets.NOTION_TOKEN }}"
+            database_id: "${{ secrets.NOTION_DATABASE_ID }}"
+          EOF
+
+      - name: Run collector
+        run: python -m agents.orchestrator
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs-${{ github.run_number }}
+          path: data/logs/
+          retention-days: 7

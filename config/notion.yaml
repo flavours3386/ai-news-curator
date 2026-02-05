@@ -1,0 +1,53 @@
+# 노션 데이터베이스 설정
+
+database:
+  name: "AI News Archive"
+
+# 속성 매핑
+properties:
+  title: "Title"
+  url: "URL"
+  source: "Source"
+  category: "Category"
+  importance: "Importance"
+  tags: "Tags"
+  summary: "Summary"
+  key_points: "Key Points"
+  published_date: "Published"
+  archived_date: "Archived"
+  status: "Status"
+  language: "Language"
+  notes: "My Notes"
+
+# 기본값
+defaults:
+  status: "📥 Inbox"
+  importance: "🟡 Medium"
+  category: "💭 Opinion"
+
+# Select 옵션 (노션에서 미리 생성해두면 좋음)
+select_options:
+  importance:
+    - "🔴 Critical"
+    - "🟠 High"
+    - "🟡 Medium"
+    - "⚪ Low"
+
+  category:
+    - "🔬 Research"
+    - "🚀 Product"
+    - "💼 Business"
+    - "⚖️ Policy"
+    - "🔓 OpenSource"
+    - "🎓 Tutorial"
+    - "💭 Opinion"
+
+  status:
+    - "📥 Inbox"
+    - "📖 Read"
+    - "⭐ Important"
+    - "🗑️ Skip"
+
+  language:
+    - "🇺🇸 English"
+    - "🇰🇷 Korean"
