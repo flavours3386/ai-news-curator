@@ -1,3 +1,4 @@
+import os
 import yaml
 import json
 import time
@@ -20,7 +21,7 @@ class Orchestrator:
         self.config_dir = Path(config_dir)
         self.sources_config = self._load_yaml('sources.yaml')
         self.notion_config = self._load_yaml('notion.yaml')
-        self.credentials = self._load_yaml('credentials.yaml')
+        self.credentials = self._load_credentials()
         self.linkedin_config = self._load_yaml('linkedin.yaml')
 
         # 에이전트 초기화
@@ -55,6 +56,41 @@ class Orchestrator:
         path = self.config_dir / filename
         with open(path, 'r', encoding='utf-8') as f:
             return yaml.safe_load(f)
+
+    def _load_credentials(self) -> Dict:
+        """credentials.yaml 또는 환경변수에서 인증 정보 로드"""
+        cred_path = self.config_dir / 'credentials.yaml'
+
+        # 1) 로컬: credentials.yaml 존재 시 yaml에서 로드
+        if cred_path.exists():
+            print("🔑 Loading credentials from credentials.yaml")
+            with open(cred_path, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f)
+
+        # 2) Railway: 환경변수에서 로드
+        notion_token = os.environ.get('NOTION_TOKEN')
+        notion_db_id = os.environ.get('NOTION_DATABASE_ID')
+        anthropic_key = os.environ.get('ANTHROPIC_API_KEY')
+
+        if notion_token and notion_db_id:
+            print("🔑 Loading credentials from environment variables")
+            return {
+                'notion': {
+                    'integration_token': notion_token,
+                    'database_id': notion_db_id,
+                    'linkedin_database_id': os.environ.get('NOTION_LINKEDIN_DATABASE_ID', ''),
+                },
+                'anthropic': {
+                    'api_key': anthropic_key or '',
+                },
+            }
+
+        # 3) 둘 다 없음 → 에러
+        raise RuntimeError(
+            "credentials.yaml not found and required environment variables are missing.\n"
+            "Set NOTION_TOKEN, NOTION_DATABASE_ID, and ANTHROPIC_API_KEY as environment variables,\n"
+            "or create config/credentials.yaml."
+        )
 
     def run(self, hours_lookback: int = 24) -> Dict[str, Any]:
         """전체 워크플로우 실행"""
