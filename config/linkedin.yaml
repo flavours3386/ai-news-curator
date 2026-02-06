@@ -1,0 +1,69 @@
+# LinkedIn 포스트 자동 생성 설정
+
+# 필터링 설정
+filter:
+  # 1차 필터: 키워드 매칭
+  keywords:
+    - B2B Sales
+    - SaaS
+    - RevOps
+    - BizOps
+    - CRM
+    - Sales Automation
+    - GTM
+    - Pipeline
+    - Lead Generation
+    - Sales Productivity
+    - AI Agent
+    - 이커머스
+    - 마케팅 자동화
+    - Pricing
+    - Churn
+    - Retention
+    - Upsell
+    - Cross-sell
+    - PLG
+    - Sales Enablement
+
+  # 2차 필터: Claude API 관련성 평가
+  relevance_threshold: 7  # 0-10점 중 7점 이상만 통과
+
+# 포스트 생성 설정
+generation:
+  max_posts_per_run: 3
+  max_length: 1800
+  model: "claude-sonnet-4-20250514"
+  max_retries: 3
+  retry_delay: 2
+
+# 유저 프로필 (시스템 프롬프트에 포함)
+profile:
+  name: "강성민"
+  role: "Sales/BizOps Lead @ 샐러드랩 (이커머스 SaaS)"
+  experience: "14년차 B2B Sales/사업개발 전문가"
+  career_highlights:
+    - "하나투어 8.5년 - B2B 채널 영업, 연매출 120억 달성"
+    - "배컴(Rallyz) 3.3년 - 0→1 GTM, 가입학원 15,000개, Pipedrive/CRM 자동화"
+    - "리멤버 3개월 - 온보딩 프로세스 혁신, Cash EBITDA 2,700만 직접 기여"
+    - "샐러드랩 현재 - MRR 55% 성장, Full-Funnel 최적화, Tier-based Monetization"
+  expertise:
+    - "GTM 전략 수립 및 실행"
+    - "Scalable Sales Infrastructure 구축"
+    - "RevOps/Data-Driven Sales Operations"
+    - "CRM 자동화 (Pipedrive, Zapier)"
+  branding_goal: "AI x B2B Sales/BizDev 실전 전문가"
+  tone: "전문적이지만 현장감 있는 실무자 톤. 어려운 용어는 쉽게 풀어서 설명. 겸손하지만 확신 있는 어조."
+
+# 포스트 구조 템플릿
+post_structure:
+  hook: "첫 2줄 - 스크롤 멈추게 하는 강한 문장. 숫자/질문/반전 활용"
+  context: "5-7줄 - 뉴스/트렌드 핵심 요약. 무엇이 바뀌는지, 왜 중요한지 충분히 설명. 출처명만 언급 (예: 'TechCrunch에 따르면'). 본문에 URL 링크 넣지 않기"
+  my_take: "5-7줄 - 실무자 관점 인사이트. 경험 언급 시 회사명/숫자 없이 자연스럽게. 구체적인 상황 묘사로 공감 유도"
+  closing: "1-2줄 - 짧은 개인 소감이나 전망으로 마무리. CTA/질문 금지"
+  source_link: "본문 마지막에 '📎 출처는 첫 번째 댓글에' 한 줄 추가"
+  hashtags: "5-7개"
+
+# 작성 규칙
+writing_rules:
+  - "출처 링크는 반드시 실제 뉴스 원문 URL을 사용한다. 예시용 가짜 URL(example.com 등) 절대 금지"
+  - "노션 뉴스 DB에 저장된 원문 URL을 그대로 가져와서 Source URL 필드에 넣는다"

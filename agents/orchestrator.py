@@ -1,5 +1,6 @@
 import yaml
 import json
+import time
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any
@@ -7,6 +8,9 @@ from typing import Dict, Any
 from agents.collector.rss_collector import RSSCollector
 from agents.analyzer.analyzer import ContentAnalyzer
 from agents.archiver.notion_archiver import NotionArchiver
+from agents.linkedin.filter import NewsFilter
+from agents.linkedin.generator import PostGenerator
+from agents.linkedin.post_archiver import PostArchiver
 
 
 class Orchestrator:
@@ -17,6 +21,7 @@ class Orchestrator:
         self.sources_config = self._load_yaml('sources.yaml')
         self.notion_config = self._load_yaml('notion.yaml')
         self.credentials = self._load_yaml('credentials.yaml')
+        self.linkedin_config = self._load_yaml('linkedin.yaml')
 
         # 에이전트 초기화
         self.collector = RSSCollector(self.sources_config)
@@ -25,6 +30,25 @@ class Orchestrator:
             'integration_token': self.credentials['notion']['integration_token'],
             'database_id': self.credentials['notion']['database_id']
         })
+
+        # LinkedIn 포스트 생성 에이전트 초기화
+        api_key = self.credentials.get('anthropic', {}).get('api_key', '')
+        linkedin_db_id = self.credentials.get('notion', {}).get('linkedin_database_id', '')
+
+        self.linkedin_enabled = bool(api_key and linkedin_db_id)
+        if self.linkedin_enabled:
+            self.news_filter = NewsFilter(
+                config=self.linkedin_config.get('filter', {}),
+                api_key=api_key
+            )
+            self.post_generator = PostGenerator(
+                config=self.linkedin_config,
+                api_key=api_key
+            )
+            self.post_archiver = PostArchiver({
+                'integration_token': self.credentials['notion']['integration_token'],
+                'database_id': linkedin_db_id
+            })
 
     def _load_yaml(self, filename: str) -> Dict:
         """YAML 파일 로드"""
@@ -83,6 +107,45 @@ class Orchestrator:
         if archive_result['failed'] > 0:
             print(f"   ✗ Failed: {archive_result['failed']}")
         print()
+
+        # Step 4~6: LinkedIn 포스트 생성 (설정된 경우)
+        if self.linkedin_enabled:
+            linkedin_start = time.time()
+
+            # Step 4: 관련 뉴스 필터링
+            print("🔍 Step 4: Filtering news for LinkedIn posts...")
+            filtered = self.news_filter.filter(analyzed)
+            results['steps']['linkedin_filter'] = {
+                'input': len(analyzed),
+                'output': len(filtered)
+            }
+            print(f"   ✓ Filtered {len(filtered)} relevant articles\n")
+
+            if filtered:
+                # Step 5: 포스트 생성
+                print("✏️ Step 5: Generating LinkedIn posts...")
+                posts = self.post_generator.generate(filtered)
+                results['steps']['linkedin_generate'] = {
+                    'generated': len(posts)
+                }
+                print(f"   ✓ Generated {len(posts)} posts\n")
+
+                if posts:
+                    # Step 6: 포스트 DB 저장
+                    print("💾 Step 6: Archiving posts to Notion...")
+                    post_archive_result = self.post_archiver.archive(posts)
+                    results['steps']['linkedin_archive'] = post_archive_result
+                    print(f"   ✓ Success: {post_archive_result['success']}")
+                    if post_archive_result['failed'] > 0:
+                        print(f"   ✗ Failed: {post_archive_result['failed']}")
+                    print()
+            else:
+                print("   ⚠️ No relevant articles for LinkedIn posts. Skipping Steps 5~6.\n")
+
+            linkedin_elapsed = time.time() - linkedin_start
+            results['steps']['linkedin_elapsed'] = f"{linkedin_elapsed:.1f}s"
+        else:
+            print("⏭️ LinkedIn post generation skipped (API key or DB ID not configured)\n")
 
         # 완료
         results['finished_at'] = datetime.now().isoformat()
