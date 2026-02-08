@@ -9,8 +9,8 @@ import re
 class RSSCollector:
     """RSS 피드에서 뉴스 수집"""
 
-    # AI 관련 필수 키워드
-    AI_KEYWORDS = [
+    # 기본 키워드 (config에 content_keywords가 없을 때 fallback)
+    DEFAULT_KEYWORDS = [
         'ai', 'artificial intelligence', 'machine learning', 'deep learning',
         'neural network', 'llm', 'large language model', 'gpt', 'claude',
         'gemini', 'llama', 'transformer', 'diffusion', 'generative',
@@ -21,6 +21,7 @@ class RSSCollector:
     def __init__(self, config: Dict[str, Any]):
         self.feeds = config.get('rss_feeds', {})
         self.filters = config.get('filters', {})
+        self.content_keywords = config.get('content_keywords', self.DEFAULT_KEYWORDS)
 
     def collect(self, hours_lookback: int = 24) -> Dict[str, Any]:
         """모든 RSS 피드에서 뉴스 수집"""
@@ -53,8 +54,8 @@ class RSSCollector:
         # 중복 제거
         unique_articles = self._deduplicate(all_articles)
 
-        # AI 관련 기사만 필터링
-        filtered_articles = self._filter_ai_related(unique_articles)
+        # 콘텐츠 키워드 기반 필터링
+        filtered_articles = self._filter_by_keywords(unique_articles)
 
         return {
             'collected_at': datetime.utcnow().isoformat(),
@@ -104,12 +105,12 @@ class RSSCollector:
                 unique.append(article)
         return unique
 
-    def _filter_ai_related(self, articles: List[Dict]) -> List[Dict]:
-        """AI 관련 기사만 필터링"""
+    def _filter_by_keywords(self, articles: List[Dict]) -> List[Dict]:
+        """콘텐츠 키워드 기반 필터링 (AI + B2B SaaS + Martech + E-commerce)"""
         filtered = []
         for article in articles:
             text = f"{article['title']} {article['excerpt']}".lower()
-            if any(keyword in text for keyword in self.AI_KEYWORDS):
+            if any(keyword in text for keyword in self.content_keywords):
                 filtered.append(article)
         return filtered
 

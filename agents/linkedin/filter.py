@@ -27,7 +27,7 @@ class NewsFilter:
 
         # 2차: Claude API 관련성 평가
         relevance_filtered = self._relevance_filter(keyword_matched)
-        print(f"   🤖 2차 AI 관련성 평가: {len(keyword_matched)}건 → {len(relevance_filtered)}건")
+        print(f"   🤖 2차 관련성 평가: {len(keyword_matched)}건 → {len(relevance_filtered)}건")
 
         # 관련성 점수 높은 순 정렬
         relevance_filtered.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
