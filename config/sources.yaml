@@ -15,10 +15,6 @@ rss_feeds:
       url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
       priority: medium
 
-    - name: "VentureBeat AI"
-      url: "https://venturebeat.com/category/ai/feed/"
-      priority: medium
-
     - name: "Ars Technica"
       url: "https://arstechnica.com/tag/artificial-intelligence/feed/"
       priority: medium
@@ -29,11 +25,7 @@ rss_feeds:
 
     # AI 기업 공식 블로그
     - name: "OpenAI Blog"
-      url: "https://openai.com/blog/rss/"
-      priority: high
-
-    - name: "Anthropic News"
-      url: "https://www.anthropic.com/news/rss"
+      url: "https://openai.com/news/rss.xml"
       priority: high
 
     - name: "Google AI Blog"
@@ -53,24 +45,12 @@ rss_feeds:
       url: "https://www.salesforce.com/blog/feed/"
       priority: high
 
-    - name: "Gong Blog"
-      url: "https://www.gong.io/blog/feed/"
-      priority: high
-
-    - name: "Outreach Blog"
-      url: "https://www.outreach.io/blog/rss.xml"
-      priority: medium
-
-    - name: "RevGenius Blog"
-      url: "https://www.revgenius.com/blog-feed.xml"
-      priority: medium
-
     - name: "Pavilion Blog"
-      url: "https://www.joinpavilion.com/blog/rss"
+      url: "https://www.joinpavilion.com/blog/rss.xml"
       priority: medium
 
     - name: "Close CRM Blog"
-      url: "https://blog.close.com/rss/"
+      url: "https://www.close.com/blog/rss.xml"
       priority: medium
 
     # Martech / Marketing Automation
@@ -83,14 +63,10 @@ rss_feeds:
       priority: medium
 
     - name: "Marketing Brew"
-      url: "https://www.marketingbrew.com/feed"
+      url: "https://www.marketingbrew.com/feed.xml"
       priority: medium
 
     # E-commerce
-    - name: "Shopify Blog"
-      url: "https://www.shopify.com/blog/feed"
-      priority: medium
-
     - name: "Practical Ecommerce"
       url: "https://www.practicalecommerce.com/feed"
       priority: medium
@@ -101,11 +77,7 @@ rss_feeds:
 
     # General Business / Strategy
     - name: "First Round Review"
-      url: "https://review.firstround.com/feed.xml"
-      priority: medium
-
-    - name: "a16z Blog"
-      url: "https://a16z.com/feed/"
+      url: "https://review.firstround.com/articles/feed"
       priority: medium
 
   korean:
