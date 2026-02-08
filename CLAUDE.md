@@ -64,6 +64,9 @@ RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI �
 │   ├── setup.sh
 │   └── run.sh
 ├── data/                 # 캐시, 로그
+├── Dockerfile            # Railway 배포용 컨테이너
+├── railway.toml          # Railway 빌드/배포/크론 설정
+├── .dockerignore         # Docker 빌드 제외 파일
 └── requirements.txt
 ```
 
@@ -110,6 +113,55 @@ RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI �
 - **profile** — 작성자 프로필, 경력, 전문분야
 - **post_structure** — 포스트 구조 (hook → context → my_take → closing → source_link → hashtags)
 - **writing_rules** — 작성 규칙
+
+## Railway 배포
+
+### 개요
+
+Railway Cron Job으로 매일 자동 실행됩니다. `credentials.yaml` 없이 환경변수만으로 동작하도록 fallback 로직이 구현되어 있습니다.
+
+### 배포 구조
+
+- **Dockerfile** — `python:3.11-slim` 기반, `requirements.txt` 설치 후 orchestrator 실행
+- **railway.toml** — Dockerfile 빌더 사용, 크론 스케줄 설정
+- **크론 스케줄** — `0 21 * * *` (UTC 21:00 = KST 06:00, 매일 아침 실행)
+
+### 환경변수 설정
+
+Railway Dashboard → Variables에서 아래 환경변수를 설정합니다:
+
+| 환경변수 | 필수 | 설명 |
+|----------|------|------|
+| `NOTION_TOKEN` | Y | 노션 Integration Token |
+| `NOTION_DATABASE_ID` | Y | 뉴스 DB ID |
+| `ANTHROPIC_API_KEY` | Y | Anthropic API 키 |
+| `NOTION_LINKEDIN_DATABASE_ID` | N | LinkedIn Posts DB ID (없으면 포스트 생성 스킵) |
+
+### 인증 정보 로드 순서
+
+1. `config/credentials.yaml` 파일이 존재하면 YAML에서 로드 (로컬 개발)
+2. YAML 없으면 환경변수에서 로드 (Railway 배포)
+3. 둘 다 없으면 `RuntimeError` 발생
+
+### 배포 방법
+
+```bash
+# 1. Railway CLI 설치 및 로그인
+npm install -g @railway/cli
+railway login
+
+# 2. 프로젝트 연결
+railway link
+
+# 3. 환경변수 설정
+railway variables set NOTION_TOKEN=xxx
+railway variables set NOTION_DATABASE_ID=xxx
+railway variables set ANTHROPIC_API_KEY=xxx
+railway variables set NOTION_LINKEDIN_DATABASE_ID=xxx
+
+# 4. 배포
+railway up
+```
 
 ## 주의사항
 

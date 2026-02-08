@@ -40,6 +40,74 @@ rss_feeds:
       url: "https://blog.google/technology/ai/rss/"
       priority: high
 
+    # B2B SaaS / Sales / RevOps
+    - name: "SaaStr Blog"
+      url: "https://www.saastr.com/feed/"
+      priority: high
+
+    - name: "HubSpot Sales Blog"
+      url: "https://blog.hubspot.com/sales/rss.xml"
+      priority: high
+
+    - name: "Salesforce Blog"
+      url: "https://www.salesforce.com/blog/feed/"
+      priority: high
+
+    - name: "Gong Blog"
+      url: "https://www.gong.io/blog/feed/"
+      priority: high
+
+    - name: "Outreach Blog"
+      url: "https://www.outreach.io/blog/rss.xml"
+      priority: medium
+
+    - name: "RevGenius Blog"
+      url: "https://www.revgenius.com/blog-feed.xml"
+      priority: medium
+
+    - name: "Pavilion Blog"
+      url: "https://www.joinpavilion.com/blog/rss"
+      priority: medium
+
+    - name: "Close CRM Blog"
+      url: "https://blog.close.com/rss/"
+      priority: medium
+
+    # Martech / Marketing Automation
+    - name: "MarTech"
+      url: "https://martech.org/feed/"
+      priority: medium
+
+    - name: "ChiefMartec"
+      url: "https://chiefmartec.com/feed/"
+      priority: medium
+
+    - name: "Marketing Brew"
+      url: "https://www.marketingbrew.com/feed"
+      priority: medium
+
+    # E-commerce
+    - name: "Shopify Blog"
+      url: "https://www.shopify.com/blog/feed"
+      priority: medium
+
+    - name: "Practical Ecommerce"
+      url: "https://www.practicalecommerce.com/feed"
+      priority: medium
+
+    - name: "Digital Commerce 360"
+      url: "https://www.digitalcommerce360.com/feed/"
+      priority: medium
+
+    # General Business / Strategy
+    - name: "First Round Review"
+      url: "https://review.firstround.com/feed.xml"
+      priority: medium
+
+    - name: "a16z Blog"
+      url: "https://a16z.com/feed/"
+      priority: medium
+
   korean:
     - name: "AI 타임스"
       url: "https://www.aitimes.com/rss/allArticle.xml"
@@ -54,7 +122,7 @@ api_sources:
   hacker_news:
     enabled: true
     endpoint: "https://hn.algolia.com/api/v1/search"
-    query: "AI OR LLM OR GPT"
+    query: "AI OR LLM OR GPT OR SaaS OR B2B Sales OR RevOps OR Martech"
     results_limit: 20
 
 # 필터 설정

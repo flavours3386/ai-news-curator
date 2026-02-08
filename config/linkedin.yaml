@@ -24,6 +24,30 @@ filter:
     - Cross-sell
     - PLG
     - Sales Enablement
+    - Martech
+    - Marketing Automation
+    - E-commerce
+    - Shopify
+    - CAC
+    - LTV
+    - ARR
+    - MRR
+    - NRR
+    - Sales Pipeline
+    - Outbound Sales
+    - Inbound Sales
+    - Account Based Marketing
+    - ABM
+    - Customer Success
+    - Onboarding
+    - Pricing Strategy
+    - Free Trial
+    - Freemium
+    - Sales Playbook
+    - Cold Email
+    - SDR
+    - AE
+    - BDR
 
   # 2차 필터: Claude API 관련성 평가
   relevance_threshold: 7  # 0-10점 중 7점 이상만 통과
