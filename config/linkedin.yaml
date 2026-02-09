@@ -4,50 +4,77 @@
 filter:
   # 1차 필터: 키워드 매칭
   keywords:
+    # B2B Sales / SaaS 핵심
     - B2B Sales
+    - B2B
     - SaaS
     - RevOps
     - BizOps
     - CRM
     - Sales Automation
     - GTM
+    - Go-to-Market
     - Pipeline
     - Lead Generation
     - Sales Productivity
     - AI Agent
-    - 이커머스
-    - 마케팅 자동화
-    - Pricing
-    - Churn
-    - Retention
-    - Upsell
-    - Cross-sell
-    - PLG
     - Sales Enablement
-    - Martech
-    - Marketing Automation
-    - E-commerce
-    - Shopify
-    - CAC
-    - LTV
-    - ARR
-    - MRR
-    - NRR
     - Sales Pipeline
     - Outbound Sales
     - Inbound Sales
-    - Account Based Marketing
-    - ABM
-    - Customer Success
-    - Onboarding
-    - Pricing Strategy
-    - Free Trial
-    - Freemium
     - Sales Playbook
     - Cold Email
     - SDR
     - AE
     - BDR
+    # 매출/성장 지표
+    - Pricing
+    - Pricing Strategy
+    - Churn
+    - Retention
+    - Upsell
+    - Cross-sell
+    - PLG
+    - Product-Led Growth
+    - CAC
+    - LTV
+    - ARR
+    - MRR
+    - NRR
+    - Revenue
+    - Free Trial
+    - Freemium
+    - Onboarding
+    - Customer Success
+    # 스타트업 / VC / IPO
+    - Startup
+    - IPO
+    - Funding
+    - Venture Capital
+    - Series A
+    - Series B
+    - Valuation
+    # Martech / ABM
+    - Martech
+    - Marketing Automation
+    - Account Based Marketing
+    - ABM
+    - Demand Gen
+    - Lead Scoring
+    - Shopify
+    # E-commerce (하이픈/무하이픈 모두)
+    - E-commerce
+    - Ecommerce
+    - Digital Commerce
+    # 한국어 키워드
+    - 이커머스
+    - 마케팅 자동화
+    - 스타트업
+    - 전자계약
+    - 세일즈
+    - 영업 자동화
+    - 구독 모델
+    - B2B 영업
 
   # 2차 필터: Claude API 관련성 평가
   relevance_threshold: 7  # 0-10점 중 7점 이상만 통과

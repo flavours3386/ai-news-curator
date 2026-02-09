@@ -2,7 +2,7 @@
 
 ## 프로젝트 소개
 
-AI 관련 최신 뉴스를 자동으로 수집하여 노션에 아카이빙하고, B2B Sales/BizOps 관점의 LinkedIn 포스트를 자동 생성하는 에이전트입니다.
+AI, B2B SaaS, Martech, E-commerce 관련 최신 뉴스를 자동으로 수집하여 노션에 아카이빙하고, B2B Sales/BizOps 관점의 LinkedIn 포스트를 자동 생성하는 에이전트입니다.
 
 ## 빠른 시작
 
@@ -39,6 +39,27 @@ cd ~/Desktop/PJT/02.AI-News_curator
 RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI 관련성 평가 → 포스트 생성 → 포스트 DB 저장
          (24h)  (분석)   (Notion)      (1차 필터)    (Claude Haiku)    (Claude Sonnet)  (Notion)
 ```
+
+## RSS 소스 현황 (20개)
+
+`config/sources.yaml`에서 관리. 총 20개 피드가 검증 완료되어 운영 중:
+
+| 카테고리 | 피드 수 | 소스 |
+|----------|---------|------|
+| AI / Tech 미디어 | 5 | TechCrunch AI, MIT Tech Review, The Verge AI, Ars Technica, Wired AI |
+| AI 기업 블로그 | 2 | OpenAI, Google AI |
+| B2B SaaS / Sales / RevOps | 5 | SaaStr(H), HubSpot Sales(H), Salesforce(H), Pavilion, Close CRM |
+| Martech / Marketing | 3 | MarTech, ChiefMartec, Marketing Brew |
+| E-commerce | 2 | Practical Ecommerce, Digital Commerce 360 |
+| General Business | 1 | First Round Review |
+| 한국 미디어 | 2 | AI 타임스(H), 전자신문 AI |
+
+- **(H)** = high priority
+- Hacker News API: `"AI OR LLM OR GPT OR SaaS OR B2B Sales OR RevOps OR Martech"` 쿼리 사용
+
+### 수집 필터 (content_keywords)
+
+`sources.yaml`의 `content_keywords`로 수집 단계에서 1차 필터링. AI/ML 키워드(25개) + B2B SaaS/Sales/RevOps(33개) + Martech(7개) + E-commerce(7개) 총 72개 키워드 운영 중.
 
 ## 파일 구조
 
@@ -106,7 +127,7 @@ RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI �
 
 `config/linkedin.yaml`에서 코드 수정 없이 조정 가능:
 
-- **filter.keywords** — 1차 필터링 키워드 목록
+- **filter.keywords** — 1차 필터링 키워드 43개 (기존 19개 + B2B SaaS/Martech/E-commerce 24개 추가)
 - **filter.relevance_threshold** — 2차 AI 관련성 평가 기준 (기본 7/10)
 - **generation.max_posts_per_run** — 1회 최대 생성 수 (기본 3)
 - **generation.max_length** — 본문 최대 길이 (기본 1800자)
