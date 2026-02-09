@@ -85,7 +85,8 @@ class RSSCollector:
                 'excerpt': self._clean_text(entry.get('summary', '')[:500]),
                 'image_url': self._extract_image(entry),
                 'language': feed_config.get('language', 'en'),
-                'priority': feed_config.get('priority', 'medium')
+                'priority': feed_config.get('priority', 'medium'),
+                'bypass_content_filter': feed_config.get('bypass_content_filter', False)
             }
             articles.append(article)
 
@@ -106,12 +107,15 @@ class RSSCollector:
         return unique
 
     def _filter_by_keywords(self, articles: List[Dict]) -> List[Dict]:
-        """콘텐츠 키워드 기반 필터링 (AI + B2B SaaS + Martech + E-commerce)"""
+        """콘텐츠 키워드 기반 필터링. 선정 소스(bypass_content_filter)는 무조건 통과."""
         filtered = []
         for article in articles:
-            text = f"{article['title']} {article['excerpt']}".lower()
-            if any(keyword in text for keyword in self.content_keywords):
+            if article.get('bypass_content_filter'):
                 filtered.append(article)
+            else:
+                text = f"{article['title']} {article['excerpt']}".lower()
+                if any(keyword in text for keyword in self.content_keywords):
+                    filtered.append(article)
         return filtered
 
     def _parse_date(self, date_str: str) -> Optional[datetime]:

@@ -32,53 +32,64 @@ rss_feeds:
       url: "https://blog.google/technology/ai/rss/"
       priority: high
 
-    # B2B SaaS / Sales / RevOps
+    # B2B SaaS / Sales / RevOps (선정 소스 → 키워드 필터 bypass)
     - name: "SaaStr Blog"
       url: "https://www.saastr.com/feed/"
       priority: high
+      bypass_content_filter: true
 
     - name: "HubSpot Sales Blog"
       url: "https://blog.hubspot.com/sales/rss.xml"
       priority: high
+      bypass_content_filter: true
 
     - name: "Salesforce Blog"
       url: "https://www.salesforce.com/blog/feed/"
       priority: high
+      bypass_content_filter: true
 
     - name: "Pavilion Blog"
       url: "https://www.joinpavilion.com/blog/rss.xml"
       priority: medium
+      bypass_content_filter: true
 
     - name: "Close CRM Blog"
       url: "https://www.close.com/blog/rss.xml"
       priority: medium
+      bypass_content_filter: true
 
-    # Martech / Marketing Automation
+    # Martech / Marketing Automation (선정 소스 → 키워드 필터 bypass)
     - name: "MarTech"
       url: "https://martech.org/feed/"
       priority: medium
+      bypass_content_filter: true
 
     - name: "ChiefMartec"
       url: "https://chiefmartec.com/feed/"
       priority: medium
+      bypass_content_filter: true
 
     - name: "Marketing Brew"
       url: "https://www.marketingbrew.com/feed.xml"
       priority: medium
+      bypass_content_filter: true
 
-    # E-commerce
+    # E-commerce (선정 소스 → 키워드 필터 bypass)
     - name: "Practical Ecommerce"
       url: "https://www.practicalecommerce.com/feed"
       priority: medium
+      bypass_content_filter: true
 
     - name: "Digital Commerce 360"
       url: "https://www.digitalcommerce360.com/feed/"
       priority: medium
+      bypass_content_filter: true
 
-    # General Business / Strategy
+    # General Business / Strategy (선정 소스 → 키워드 필터 bypass)
     - name: "First Round Review"
       url: "https://review.firstround.com/articles/feed"
       priority: medium
+      bypass_content_filter: true
 
   korean:
     - name: "AI 타임스"

@@ -61,6 +61,8 @@ RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI �
 
 `sources.yaml`의 `content_keywords`로 수집 단계에서 1차 필터링. AI/ML 키워드(25개) + B2B SaaS/Sales/RevOps(33개) + Martech(7개) + E-commerce(7개) 총 72개 키워드 운영 중.
 
+**선정 소스 bypass**: B2B SaaS, Martech, E-commerce, General Business 카테고리 피드(11개)는 `bypass_content_filter: true`로 설정되어 키워드 무관하게 모든 기사가 수집됨. AI/Tech 미디어와 한국 미디어만 키워드 필터 적용.
+
 ## 파일 구조
 
 ```
