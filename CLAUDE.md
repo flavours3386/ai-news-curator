@@ -192,3 +192,22 @@ railway up
 - 노션 API Rate Limit: 요청당 0.5초 딜레이 적용됨
 - Anthropic API 비용: 2차 필터는 Haiku(저비용), 포스트 생성은 Sonnet 사용
 - 반드시 프로젝트 디렉토리에서 실행해야 합니다 (`config/` 상대경로 참조)
+
+## 트러블슈팅
+
+### Railway 크론잡 24시간 stuck 현상 (2025-02-25 ~ 2026-03-22)
+
+**증상**: 크론잡이 24시간 동안 종료되지 않고 Running 상태 유지. 노션 DB에 데이터 미적재. Deploy Logs에 "Starting Container"만 표시.
+
+**원인**: RSS 피드 서버의 간헐적 무응답 + 모든 네트워크 요청에 timeout 미설정.
+- `feedparser.parse()`는 내부적으로 urllib 사용하며 기본 socket timeout이 없음
+- `requests.post()`도 timeout 미지정 시 무한 대기
+- ThreadPoolExecutor에서 1개 피드라도 hanging되면 `as_completed()` 전체가 blocking
+- Dockerfile에서 `python -u` 미사용으로 stdout 버퍼링 → Railway 로그 미출력
+
+**수정 내용**:
+- `rss_collector.py`: `socket.setdefaulttimeout(30)` 추가
+- `notion_archiver.py`: `requests.post()` 2곳에 `timeout=30` 추가
+- `post_archiver.py`: `requests.post()`에 `timeout=30` 추가
+- `Dockerfile`: `python -u` 플래그 추가 (stdout 실시간 출력)
+- `agents/__init__.py`: 순환 import 제거 (`python -m agents.orchestrator` 실행 시 RuntimeWarning 해소)
