@@ -63,7 +63,7 @@ class NotionArchiver:
             }
         }
 
-        response = requests.post(query_url, headers=self.headers, json=payload)
+        response = requests.post(query_url, headers=self.headers, json=payload, timeout=30)
 
         if response.status_code == 200:
             results = response.json().get('results', [])
@@ -124,7 +124,7 @@ class NotionArchiver:
             "children": children
         }
 
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=30)
 
         if response.status_code != 200:
             raise Exception(f"Failed to create page: {response.text}")

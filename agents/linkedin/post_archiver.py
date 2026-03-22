@@ -112,7 +112,7 @@ class PostArchiver:
             "children": children
         }
 
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=30)
 
         if response.status_code != 200:
             raise Exception(f"Notion API 에러 ({response.status_code}): {response.text[:300]}")

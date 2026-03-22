@@ -1,9 +1,13 @@
 import feedparser
 import hashlib
+import socket
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
+
+# RSS 피드 요청 시 무한 대기 방지 (30초)
+socket.setdefaulttimeout(30)
 
 
 class RSSCollector:
