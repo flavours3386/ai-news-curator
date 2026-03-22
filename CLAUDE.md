@@ -16,7 +16,7 @@ AI, B2B SaaS, Martech, E-commerce 관련 최신 뉴스를 자동으로 수집하
 #    - LinkedIn Posts DB ID
 
 # 3. 실행
-cd ~/Desktop/PJT/02.AI-News_curator
+cd ~/Desktop/PJT/ai-news-curator
 ./venv/bin/python -m agents.orchestrator
 ```
 
@@ -66,7 +66,7 @@ RSS/API → 수집 → 분석 → 뉴스 DB 저장 → 키워드 필터 → AI �
 ## 파일 구조
 
 ```
-02.AI-News_curator/
+ai-news-curator/
 ├── agents/
 │   ├── collector/        # RSS 뉴스 수집
 │   ├── analyzer/         # 콘텐츠 분석 (중요도, 카테고리, 태그)
